@@ -1,0 +1,17 @@
+{
+    "name": "vartruexuan\/easy-outapi",
+    "description": "Package description here.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "guozhaoxuan",
+            "email": "1175398345@qq.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Vartruexuan\\EasyOutApi\\": "src"
+        }
+    }
+}
