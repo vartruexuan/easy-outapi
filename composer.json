@@ -15,7 +15,6 @@
         "ext-openssl": "*",
         "ext-simplexml": "*",
         "ext-libxml": "*",
-
         "guzzlehttp/guzzle": "^7.3",
         "pimple/pimple": "^3.4",
         "phpunit/phpunit": "^9.5",
