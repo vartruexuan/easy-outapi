@@ -186,7 +186,7 @@ class LogManager implements LoggerInterface
     protected function createEmergencyLogger()
     {
         return new Monolog('Vartruexuan\EasyOutApi', $this->prepareHandlers([new StreamHandler(
-            \sys_get_temp_dir().'/Vartruexuan\EasyOutApi/Vartruexuan\EasyOutApi.log',
+            \sys_get_temp_dir().'/Vartruexuan/EasyOutApi.log',
             $this->level(['level' => 'debug'])
         )]));
     }
