@@ -9,57 +9,51 @@
 namespace Vartruexuan\EasyOutApi\OutApi;
 
 use Vartruexuan\EasyOutApi\Kernel\ServiceContainer;
-use Vartruexuan\EasyOutApi\Kernel\Traits\HasHttpRequests;
-use Vartruexuan\EasyOutApi\Kernel\Events\HttpResponseCreated;
+use Vartruexuan\EasyOutApi\OutApi\Client\ServiceProvider;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 
+/**
+ * Class OutApiAbstract
+ *
+ * @property \Vartruexuan\EasyOutApi\OutApi\Client\OutApiClient $outApiClient
+ * @package Vartruexuan\EasyOutApi\OutApi
+ */
 abstract class OutApiAbstract extends ServiceContainer
 {
-
-    use HasHttpRequests;
-
-    protected $routes = [
-
-        'routeKey' => [
-            // 'route'=>'/test',
-            // 'route'=>'/test/{userId}',
-            'method' => 'GET',
-            'mockValue' => '', // mock value
-            'isMock' => true,
-        ],
-
+    protected $providers = [
+        ServiceProvider::class,
     ];
-
     protected $defaultConfig = [
         'baseUrl' => 'http://127.0.0.1', // domain
         'isMock' => false,
+        'routes' => [
+            'routeKey' => [
+                // 'route'=>'/test',
+                // 'route'=>'/test/{userId}',
+                'method' => 'GET',
+                'isMock' => true,
+                'mockValue' => '', // mock value
+            ],
+        ],
     ];
 
-
-    protected function sendUrl(
-        $routeKey,
-        ?array $routeParam = null,
-        ?array $queryParam = null,
-        ?array $param = null,
-        ?array $options = null,
-        $isAsnyc = false
-    ) {
+    protected function request($routeKey, ?array $routeParam = null, ?array $queryParam = null, ?array $param = null, ?array $options = null, $isAsnyc = false)
+    {
         // route info
-        $routeInfo = new RouteInfo($this->routes[$routeKey] ?? []);
+        $routeInfo = new RouteInfo($this->getConfig()['routes'][$routeKey] ?? []);
 
-        $this->setAuth($routeKey, $routeParam, $queryParam, $param, $options);
 
         $fullUrl = $this->getFullUrl($routeKey, $routeParam);
 
         $this->setParam($queryParam, $param, $options);
-        // send
-        $requestAction = $isAsnyc ? 'request' : 'requestAsnyc';
+
         if (!$this->isMock($routeKey)) {
-            $response = $this->request($fullUrl,$routeInfo->method, $options);
+            $response = $this->outApiClient->request($fullUrl, $routeInfo->method, $options ?? []);
         } else {
             // mock
             $response = $routeInfo->mockValue;
         }
-        $this->events->dispatch(new HttpResponseCreated($response));
 
         return $this->dataFormat($response);
     }
@@ -89,8 +83,8 @@ abstract class OutApiAbstract extends ServiceContainer
         // route > config
         $config = $this->getconfig();
         $isMock = $config['isMock'] ?? false;
-        if (isset($this->routes[$routeKey]['isMock'])) {
-            $isMock = $this->routes[$routeKey]['isMock'];
+        if (isset($config['routes'][$routeKey]['isMock'])) {
+            $isMock = $config['routes'][$routeKey]['isMock'];
         }
 
         return $isMock;
@@ -106,7 +100,7 @@ abstract class OutApiAbstract extends ServiceContainer
      */
     protected function getFullUrl($routeKey, ?array $routeParam)
     {
-        $routeInfo = $this->routes[$routeKey] ?? [];
+        $routeInfo = $this->getConfig()['routes'][$routeKey] ?? [];
         $config = $this->getConfig();
 
         $url = $config['baseUrl'].$routeInfo['route'];
@@ -126,24 +120,21 @@ abstract class OutApiAbstract extends ServiceContainer
     }
 
     /**
-     * 额外操作
-     *      可进行一些 sign|token 操作
-     *      签名传输路径: header param
-     *
-     * @param $routeKey
-     * @param  array|null  $routeParam
-     * @param  array|null  $queryParam
-     * @param  array|null  $param
+     * @param  \GuzzleHttp\Psr7\Request  $request
+     * @param  array  $options
      *
      * @return mixed
      */
-    abstract function setAuth(
-        $routeKey,
-        ?array &$routeParam,
-        ?array &$queryParam,
-        ?array &$param,
-        ?array &$options = null
-    );
+    abstract function beforeAction(Request $request, &$options = []);
+
+    /**
+     * is retry
+     *
+     * @param  \GuzzleHttp\Psr7\Response  $response
+     *
+     * @return bool
+     */
+    abstract function isRetry(Response $response): bool;
 
     /**
      * 数据解析映射
@@ -154,6 +145,7 @@ abstract class OutApiAbstract extends ServiceContainer
      */
     protected function dataFormat($response)
     {
-        return [];
+        return $response;
     }
+
 }

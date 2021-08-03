@@ -40,6 +40,7 @@ return [
         'max_retries' => 1, // 最大重试次数
         'retry_delay' => 500, // 重试间隔时间(毫秒)
         'timeout' => 5.0,// 超时（秒）
+        // 'log_template'=>'', // 日志模板
     ],
 
     'log' => [

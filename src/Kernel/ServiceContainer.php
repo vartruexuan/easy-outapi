@@ -18,7 +18,7 @@ use Pimple\Container;
  *
  * @property \Vartruexuan\EasyOutApi\Kernel\Config              $config
  * @property \Symfony\Component\HttpFoundation\Request          $request
- * @property \GuzzleHttp\Client                                 $http_client
+ * @property \GuzzleHttp\Client                                 $httpClient
  * @property \Monolog\Logger                                    $logger
  * @property \Symfony\Component\EventDispatcher\EventDispatcher $events
  */
@@ -80,7 +80,6 @@ class ServiceContainer extends Container
                 'timeout' => 30.0,
             ],
         ];
-
         return array_replace_recursive($base, $this->defaultConfig, $this->userConfig);
     }
 

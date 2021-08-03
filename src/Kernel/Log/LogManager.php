@@ -296,7 +296,7 @@ class LogManager implements LoggerInterface
      *
      * @return \Psr\Log\LoggerInterface
      */
-    protected function createErrorlogDriver(array $config)
+    protected function createErrorLogDriver(array $config)
     {
         return new Monolog($this->parseChannel($config), [
             $this->prepareHandler(
