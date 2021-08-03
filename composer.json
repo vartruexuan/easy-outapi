@@ -8,7 +8,20 @@
             "email": "1175398345@qq.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=7.2.5",
+        "ext-json": "*",
+        "ext-fileinfo": "*",
+        "ext-openssl": "*",
+        "ext-simplexml": "*",
+        "ext-libxml": "*",
+        "guzzlehttp/guzzle": "^7.3",
+        "pimple/pimple": "^3.4",
+        "phpunit/phpunit": "^9.5",
+        "monolog/monolog": "^2.3",
+        "symfony/event-dispatcher": "^5.3",
+        "symfony/http-foundation": "^5.3"
+    },
     "autoload": {
         "psr-4": {
             "Vartruexuan\\EasyOutApi\\": "src"
