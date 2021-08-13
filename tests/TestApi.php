@@ -65,7 +65,7 @@ class TestApi extends OutApiAbstract
 
         // 模拟签名
         $secret='123';
-        $options['token']=md5($request->getUri().$secret);
+        $options['headers']=['token'=>md5($request->getUri().$secret)];
 
         // TODO: Implement beforeAction() method.
     }
