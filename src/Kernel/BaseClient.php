@@ -192,7 +192,7 @@ class BaseClient
         return Middleware::retry(
             function ($retries, RequestInterface $request, ResponseInterface $response = null) {
                 // Limit the number of retries to 2
-                if ($retries < $this->app->config->get('http.max_retries', 1) && $this->app->isRetry($response)) {
+                if ($retries < $this->app->config->get('http.max_retries', 1) && $this->app->isRetry($response,$retries)) {
                     // Retry on server errors
                     // $response = json_decode($body, true);
                     return true;

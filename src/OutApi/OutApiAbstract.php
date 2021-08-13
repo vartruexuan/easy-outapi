@@ -48,13 +48,15 @@ abstract class OutApiAbstract extends ServiceContainer
 
         $this->setParam($queryParam, $param, $options);
 
+
         if (!$this->isMock($routeKey)) {
             $response = $this->outApiClient->request($fullUrl, $routeInfo->method, $options ?? []);
         } else {
             // mock
-            $response = $routeInfo->mockValue;
+            $response = new Response(200,[],$routeInfo->mockValue);
+            // add mock log
+            $this->logger->info('response:'.$routeInfo->mockValue);
         }
-
         return $this->dataFormat($response);
     }
 
@@ -63,7 +65,7 @@ abstract class OutApiAbstract extends ServiceContainer
     {
         if ($queryParam) {
             $options = array_merge(
-                $options,
+                $options??[],
                 [
                     'query' => $queryParam,
                 ]
@@ -130,11 +132,12 @@ abstract class OutApiAbstract extends ServiceContainer
     /**
      * is retry
      *
-     * @param  \GuzzleHttp\Psr7\Response  $response
+     * @param  \GuzzleHttp\Psr7\Response|null  $response
+     * @param  int  $retries retry num
      *
      * @return bool
      */
-    abstract function isRetry(Response $response): bool;
+    abstract function isRetry(?Response $response,$retries=0): bool;
 
     /**
      * 数据解析映射
