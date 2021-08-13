@@ -85,7 +85,6 @@ class TestApi extends OutApiAbstract
      * @param $response
      *
      * @return array|mixed|Response
-     * @author:郭昭璇
      */
     function dataFormat($response)
     {
