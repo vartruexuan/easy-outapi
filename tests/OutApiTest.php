@@ -10,6 +10,7 @@ namespace Vartruexuan\EasyOutApi\Test;
 
 use PHPUnit\Framework\TestCase;
 use Vartruexuan\EasyOutApi\Kernel\Http\Response;
+use Vartruexuan\EasyOutApi\Test\api\TestApi;
 
 class OutApiTest extends TestCase
 {

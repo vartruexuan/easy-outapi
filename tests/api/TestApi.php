@@ -6,7 +6,7 @@
  * Time: 16:15
  */
 
-namespace Vartruexuan\EasyOutApi\Test;
+namespace Vartruexuan\EasyOutApi\Test\api;
 
 
 use Vartruexuan\EasyOutApi\OutApi\OutApiAbstract;
