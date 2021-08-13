@@ -20,6 +20,7 @@ class OutApiClient extends BaseClient
      try{
          return parent::request($url, $method, $options, $returnRaw);
      }catch (\Throwable $e){
+
      }
  }
 

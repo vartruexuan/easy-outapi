@@ -53,9 +53,9 @@ abstract class OutApiAbstract extends ServiceContainer
             $response = $this->outApiClient->request($fullUrl, $routeInfo->method, $options ?? []);
         } else {
             // mock
-            $response = new Response(200,[],$routeInfo->mockValue);
-            // add mock log
-            $this->logger->info('response:'.$routeInfo->mockValue);
+            $response=new Response(200,[],$routeInfo->mockValue);
+            $this->app->events->dispatch(new \Vartruexuan\EasyOutApi\Kernel\Events\HttpResponseCreated($response));
+            $response=$this->outApiClient->castResponseToType($response, $this->config->get('response_type'));
         }
         return $this->dataFormat($response);
     }
@@ -100,7 +100,7 @@ abstract class OutApiAbstract extends ServiceContainer
      *
      * @return string
      */
-    protected function getFullUrl($routeKey, ?array $routeParam)
+    public function getFullUrl($routeKey, ?array $routeParam=null)
     {
         $routeInfo = $this->getConfig()['routes'][$routeKey] ?? [];
         $config = $this->getConfig();

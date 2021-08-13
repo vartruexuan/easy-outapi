@@ -26,5 +26,10 @@
         "psr-4": {
             "Vartruexuan\\EasyOutApi\\": "src"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Vartruexuan\\EasyOutApi\\Test\\":"tests/"
+        }
     }
 }
