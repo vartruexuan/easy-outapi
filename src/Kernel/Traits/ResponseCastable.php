@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+
 
 namespace Vartruexuan\EasyOutApi\Kernel\Traits;
 
@@ -32,7 +25,7 @@ trait ResponseCastable
      *
      * @throws \Vartruexuan\EasyOutApi\Kernel\Exceptions\InvalidConfigException
      */
-    protected function castResponseToType(ResponseInterface $response, $type = null)
+    public function castResponseToType(ResponseInterface $response, $type = null)
     {
         $response = Response::buildFromPsrResponse($response);
         $response->getBody()->rewind();

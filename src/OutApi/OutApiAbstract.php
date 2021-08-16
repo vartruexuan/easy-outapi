@@ -12,6 +12,8 @@ use Vartruexuan\EasyOutApi\Kernel\ServiceContainer;
 use Vartruexuan\EasyOutApi\OutApi\Client\ServiceProvider;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\Exception\RequestException;
 
 /**
  * Class OutApiAbstract
@@ -43,20 +45,21 @@ abstract class OutApiAbstract extends ServiceContainer
         // route info
         $routeInfo = new RouteInfo($this->getConfig()['routes'][$routeKey] ?? []);
 
-
         $fullUrl = $this->getFullUrl($routeKey, $routeParam);
 
         $this->setParam($queryParam, $param, $options);
 
-
-        if (!$this->isMock($routeKey)) {
-            $response = $this->outApiClient->request($fullUrl, $routeInfo->method, $options ?? []);
-        } else {
-            // mock
-            $response=new Response(200,[],$routeInfo->mockValue);
-            $this->app->events->dispatch(new \Vartruexuan\EasyOutApi\Kernel\Events\HttpResponseCreated($response));
-            $response=$this->outApiClient->castResponseToType($response, $this->config->get('response_type'));
+        // mock
+        if ($this->isMock($routeKey)) {
+            $mockHandler=$routeInfo['mockValue'] ;
+            if(!$mockHandler instanceof MockHandler){
+                $mockHandler=new MockHandler();
+            }
+            $this->guzzle_handler=$mockHandler;
         }
+
+        $response = $this->outApiClient->request($fullUrl, $routeInfo->method, $options ?? []);
+
         return $this->dataFormat($response);
     }
 
@@ -65,7 +68,7 @@ abstract class OutApiAbstract extends ServiceContainer
     {
         if ($queryParam) {
             $options = array_merge(
-                $options??[],
+                $options ?? [],
                 [
                     'query' => $queryParam,
                 ]
@@ -100,11 +103,10 @@ abstract class OutApiAbstract extends ServiceContainer
      *
      * @return string
      */
-    public function getFullUrl($routeKey, ?array $routeParam=null)
+    public function getFullUrl($routeKey, ?array $routeParam = null)
     {
-        $routeInfo = $this->getConfig()['routes'][$routeKey] ?? [];
         $config = $this->getConfig();
-
+        $routeInfo = $config['routes'][$routeKey] ?? [];
         $url = $config['baseUrl'].$routeInfo['route'];
 
         // replace route param
@@ -133,11 +135,11 @@ abstract class OutApiAbstract extends ServiceContainer
      * is retry
      *
      * @param  \GuzzleHttp\Psr7\Response|null  $response
-     * @param  int  $retries retry num
+     * @param  int  $retries  retry num
      *
      * @return bool
      */
-    abstract function isRetry(?Response $response,$retries=0): bool;
+    abstract function isRetry(?Response $response, $retries = 0): bool;
 
     /**
      * 数据解析映射
