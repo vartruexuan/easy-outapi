@@ -1,9 +1,12 @@
 <?php
-/**
- * Created by
- * User: GuoZhaoXuan
- * Date: 2021/7/12
- * Time: 18:30
+
+/*
+ * This file is part of the vartruexuan/easy-outapi.
+ *
+ * (c) vartruexuan <guozhaoxuanx@163.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Vartruexuan\EasyOutApi\OutApi;
@@ -13,7 +16,6 @@ use Vartruexuan\EasyOutApi\OutApi\Client\ServiceProvider;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\Exception\RequestException;
 
 /**
  * Class OutApiAbstract
