@@ -62,7 +62,7 @@ class TestApi extends OutApiAbstract
     function beforeAction(Request $request, &$options = [])
     {
         // $options['proxy']='http://127.0.0.1:8889';
-        $this->getConfig()
+
         // 模拟签名
         $secret='123';
         $options['headers']=['token'=>md5($request->getUri().$secret)];
