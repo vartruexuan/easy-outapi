@@ -43,7 +43,6 @@ return [
 	  'timeout' => 5.0,// 超时（秒）  
 	  // 'log_template'=>'', // 日志模板  
   ],  
-  
   'log' => [  
 	  'default' => 'dev', // 默认使用的 channel，生产环境可以改为下面的 prod  'channels' => [  
 	  // 测试环境  
@@ -59,8 +58,7 @@ return [
 	    'level' => 'info',  
 	  ],  
   ],  
-  ],  
-  'response_type'=>'array',// collection,raw,object  
+  'response_type'=>'array',// 数据返回类型 collection,raw,object  
 ];
 
 ```
