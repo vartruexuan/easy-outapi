@@ -13,7 +13,7 @@ $ composer require vartruexuan/easy-outapi
   
 ## 支持  
  + 1.规范curl  
- + 2.兼容restfull api  
+ + 2.兼容restful api  
  + 2.自动记录日志,支持日志模板配置  
  + 3.兼容mock  
  + 4.支持接口重试配置  
@@ -126,8 +126,8 @@ class TestApi extends OutApiAbstract
 			  'route'=>'/index/first-api',
 			  'method'=>'GET',
 		  ],
-		  // restfull api (实际传参查看request())
-		   'restFullApi'=>[
+		  // restful api (实际传参查看request())
+		   'restfulApi'=>[
 			  'route'=>'/index/get-user-info/{userId}',
 			  'method'=>'GET',
 		  ],
