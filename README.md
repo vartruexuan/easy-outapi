@@ -99,7 +99,7 @@ class TestApi extends OutApiAbstract
 	  'routes'=>[
 		   // 第一个接口
 		  'firstApi'=>[
-			  'route'=>'/index/first-api'
+			  'route'=>'/index/first-api',
 			  'method'=>'GET',
 		  ],
 	  ],
@@ -123,17 +123,17 @@ class TestApi extends OutApiAbstract
 	  'routes'=>[
 		   // 第一个接口
 		  'firstApi'=>[
-			  'route'=>'/index/first-api'
+			  'route'=>'/index/first-api',
 			  'method'=>'GET',
 		  ],
 		  // restfull api (实际传参查看request())
 		   'restFullApi'=>[
-			  'route'=>'/index/get-user-info/{userId}'
+			  'route'=>'/index/get-user-info/{userId}',
 			  'method'=>'GET',
 		  ],
 		   // mock
 		   'mockApi'=>[
-			  'route'=>'/index/first-api'
+			  'route'=>'/index/first-api',
 			  'method'=>'GET',
 			   /**  
 				* 实际场景应该写到配置里  
@@ -141,8 +141,8 @@ class TestApi extends OutApiAbstract
 				*/
 			  'isMock'=>true,
 			  'mockValue'=>new MockHandler(  [
-					    new \GuzzleHttp\Psr7\Response(200, [], $mockValue),  
-					    new \GuzzleHttp\Psr7\Response(202, [],$mockValue),  
+					    new \GuzzleHttp\Psr7\Response(200, [], json_encode(['code'=>0,'data'=>['a']])),  
+					    new \GuzzleHttp\Psr7\Response(202, [],json_encode(['code'=>0,'data'=>['a']])),  
 					   new RequestException("Error Communicating with Server", new Request('GET','test')),  
 	  ]  
 			)
@@ -154,16 +154,18 @@ class TestApi extends OutApiAbstract
 ```
 + beforeAction,请求前拦截操作
 ```php
+class TestApi extends OutApiAbstract
+{
 	  protected $defaultConfig = [  
 	  // 域名配置
 	  'baseUrl' => 'https://postman-echo.com',
 	  // 签名配置(模拟)
-	  'secret'=>'123455'
+	  'secret'=>'123455',
 	  // 路由配置(下面说明)
 	  'routes'=>[
 		   // 第一个接口
 		  'firstApi'=>[
-			  'route'=>'/index/first-api'
+			  'route'=>'/index/first-api',
 			  'method'=>'GET',
 		  ],
 	  ],
@@ -180,7 +182,7 @@ class TestApi extends OutApiAbstract
 	{
 	   // TODO: Implement beforeAction() method. 
 		// 进行加密签名操作  
-		$token=$thi->getToken()
+		$token=$this->getToken();
 	    $options['headers']=array_merge($options['headers']??[],['token'=>$token]);  
 		// 此处不止签名,你可以做更多的操作(比如代理)
 		// 可参考 https://guzzle-cn.readthedocs.io/zh_CN/latest/request-options.html  
@@ -193,6 +195,7 @@ class TestApi extends OutApiAbstract
 	    // 模拟操作,实际业务根据自己逻辑
 	    return 	md5($config['baseUrl'].$config['secret']);
     }
+}
 ```
 + isRetry  重试逻辑
 ```php
