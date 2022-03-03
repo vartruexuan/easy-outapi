@@ -1,14 +1,9 @@
 
 <h1 align="center"> easy-outapi </h1>  
-  
-<p align="center"> .</p>  
-  
-<div align="center">
-[![Tests](https://github.com/vartruexuan/easy-outapi/actions/workflows/tests.yml/badge.svg)](https://github.com/vartruexuan/easy-outapi/actions/workflows/tests.yml)
-</div>
 
-## 安装  
-  
+[![Tests](https://github.com/vartruexuan/easy-outapi/actions/workflows/tests.yml/badge.svg)](https://github.com/vartruexuan/easy-outapi/actions/workflows/tests.yml)
+
+## 安装
 ```shell  
 $ composer require vartruexuan/easy-outapi  
 ```  
