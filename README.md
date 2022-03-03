@@ -3,6 +3,10 @@
   
 <p align="center"> .</p>  
   
+<div align="center">
+[![Tests](https://github.com/vartruexuan/easy-outapi/actions/workflows/tests.yml/badge.svg)](https://github.com/vartruexuan/easy-outapi/actions/workflows/tests.yml)
+</div>
+
 ## 安装  
   
 ```shell  
